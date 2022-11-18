@@ -71,6 +71,7 @@ build/
 .idea/compiler.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/.name
+.idea
 .idea/artifacts/dist_auto_*
 .idea/artifacts/dist.xml
 .idea/artifacts/ideaPlugin.xml

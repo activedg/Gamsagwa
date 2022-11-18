@@ -1,4 +1,4 @@
-package com.handson.thankapolo
+package com.handson.thankapolo.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,19 +10,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
+import com.handson.thankapolo.ui.screen.splash.SplashScreen
 import com.handson.thankapolo.ui.theme.ThankApoloTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ThankApoloTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.primary
-                ) {
-                    Greeting("Android")
-                }
+                SplashScreen()
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colorScheme.background
+//                ) {
+//                    Greeting("Android")
+//                }
             }
         }
     }
