@@ -1,16 +1,10 @@
-package com.handson.thankapolo.ui
+package com.handson.thankapolo.ui.screen
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.view.WindowCompat
+import com.handson.thankapolo.ui.screen.login.LoginActivity
 import com.handson.thankapolo.ui.screen.splash.SplashScreen
 import com.handson.thankapolo.ui.theme.ThankApoloTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +15,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ThankApoloTheme {
-                SplashScreen()
+                SplashScreen(onClickLogin = {startActivity(Intent(this, LoginActivity::class.java))})
 //                Surface(
 //                    modifier = Modifier.fillMaxSize(),
 //                    color = MaterialTheme.colorScheme.background
@@ -30,18 +24,5 @@ class MainActivity : ComponentActivity() {
 //                }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ThankApoloTheme {
-        Greeting("Android")
     }
 }

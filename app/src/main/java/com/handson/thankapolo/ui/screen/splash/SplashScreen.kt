@@ -16,14 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.handson.thankapolo.R
+import com.handson.thankapolo.ui.theme.Typography
 import com.handson.thankapolo.ui.theme.seed
 import com.handson.thankapolo.ui.theme.seed_70
 
 @Composable
 fun SplashScreen(
-
+    onClickLogin : () -> Unit
 ) {
-    // Splash 화면에서 상태바 색상 변경
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -49,10 +49,9 @@ fun SplashScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             Text(text = "감사과",
-                fontSize = 48.sp,
-                fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.padding(top = 24.dp),
-                color = Color.White
+                color = Color.White,
+                style = Typography.displayLarge
             )
             Image(
                 painter = painterResource(id = R.drawable.ic_splash),
@@ -64,7 +63,7 @@ fun SplashScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             Button(
-                onClick = { /*TODO*/ },
+                onClick = onClickLogin,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
@@ -72,9 +71,8 @@ fun SplashScreen(
                 colors = ButtonDefaults.buttonColors(seed)
             ) {
                 Text(
-                    "감사과에 로그인하기",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                    "감사과에 로그인",
+                    style = Typography.labelLarge
                 )
             }
         }

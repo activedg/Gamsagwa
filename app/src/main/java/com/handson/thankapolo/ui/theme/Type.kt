@@ -1,19 +1,46 @@
 package com.handson.thankapolo.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.handson.thankapolo.R
 
-// Set of Material typography styles to start with
+val fonts = FontFamily(
+    Font(R.font.apple_gothic_neo_regular),
+    Font(R.font.apple_gothic_neo_medium, weight = FontWeight.Medium),
+    Font(R.font.apple_gothic_neo_bold, weight = FontWeight.Bold),
+    Font(R.font.apple_gothic_neo_semibold, weight = FontWeight.SemiBold),
+    Font(R.font.apple_gothic_neo_extrabold, weight = FontWeight.ExtraBold),
+    Font(R.font.apple_gothic_neo_light, weight = FontWeight.Light)
+)
+
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
+    ),
+    displayLarge = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 48.sp,
+        lineHeight = 64.sp
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = fonts,
+        fontSize = 20.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        lineHeight = 20.sp
     )
     /* Other default text styles to override
     titleLarge = TextStyle(
