@@ -28,13 +28,17 @@ import com.handson.thankapolo.ui.theme.seed_70
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    
+    onLogin : () -> Unit
 ){
     val colorScheme = MaterialTheme.colorScheme
 
     var userId = rememberSaveable{ mutableStateOf("") }
     var userPwd = rememberSaveable{ mutableStateOf("") }
     var pwdVisible = rememberSaveable { mutableStateOf(false)}
+
+    var isNicknameValid = rememberSaveable {
+        mutableStateOf(userId.value.length >= 4 && userPwd.value.length >= 6)
+    }
 
     val systemUiController = rememberSystemUiController()
     SideEffect {
@@ -99,30 +103,29 @@ fun LoginScreen(
                 }
             )
             Spacer(
+                modifier = Modifier.height(30.dp)
+            )
+            Button(onClick = { /*TODO*/ },
+                colors = ButtonDefaults.buttonColors(seed),
+                modifier = Modifier.fillMaxWidth(),
+                enabled = isNicknameValid.value
+            ) {
+                Text(text = "감사과에 로그인",
+                    style = Typography.labelLarge,
+                )
+            }
+            Spacer(
                 modifier = Modifier.weight(1.0f)
             )
-            Column(
+            Button(onClick = onLogin,
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary),
                 modifier = Modifier
-                    .padding(bottom = 50.dp)
                     .fillMaxWidth()
+                    .padding(bottom = 50.dp)
             ) {
-                Button(onClick = { /*TODO*/ },
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "회원가입",
-                        style = Typography.labelLarge
-                    )
-                }
-                Spacer(modifier = Modifier.height(20.dp))
-                Button(onClick = { /*TODO*/ },
-                    colors = ButtonDefaults.buttonColors(seed),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "감사과에 로그인",
-                        style = Typography.labelLarge
-                    )
-                }
+                Text(text = "회원가입",
+                    style = Typography.labelLarge
+                )
             }
         }
     }

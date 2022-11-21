@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import com.handson.thankapolo.ui.screen.login.LoginActivity
 import com.handson.thankapolo.ui.screen.splash.SplashScreen
 import com.handson.thankapolo.ui.theme.ThankApoloTheme
@@ -15,7 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ThankApoloTheme {
-                SplashScreen(onClickLogin = {startActivity(Intent(this, LoginActivity::class.java))})
+                ThankApoloScreen(name = "이동건")
 //                Surface(
 //                    modifier = Modifier.fillMaxSize(),
 //                    color = MaterialTheme.colorScheme.background
@@ -25,4 +27,10 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ThankApoloPreview(){
+    ThankApoloScreen(name = "이동건")
 }
