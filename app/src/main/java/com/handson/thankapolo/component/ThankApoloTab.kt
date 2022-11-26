@@ -2,6 +2,7 @@ package com.handson.thankapolo.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.handson.thankapolo.ui.theme.Typography
 
 @Composable
@@ -24,8 +26,7 @@ fun ThankApoloTab(
             Box{}
         },
         modifier = Modifier
-            .clip(RoundedCornerShape(100.dp))
-            .fillMaxWidth(),
+            .clip(RoundedCornerShape(100.dp)),
         divider = {},
         edgePadding = 12.dp
     ) {
@@ -37,18 +38,19 @@ fun ThankApoloTab(
                     text = tabTitles[index],
                     style = Typography.labelMedium,
                     color = Color.Black,
+                    modifier = Modifier.padding(all = 0.dp)
                     )
                 },
                 modifier = if (selected) Modifier
-                    .clip(RoundedCornerShape(100))
+                    .clip(RoundedCornerShape(50))
                     .background(
                         color = MaterialTheme.colorScheme.secondaryContainer
-                    )
+                    ).zIndex(0.5f)
                 else Modifier
-                    .clip(RoundedCornerShape(100))
+                    .clip(RoundedCornerShape(50))
                     .background(
                         color = Color.Transparent
-                    ),
+                    ).zIndex(0.5f),
             )
         }
     }

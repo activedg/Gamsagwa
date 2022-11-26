@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ThankApoloTheme {
-                ThankApoloScreen(name = "이동건")
+                MainScreen(name = "이동건")
 //                Surface(
 //                    modifier = Modifier.fillMaxSize(),
 //                    color = MaterialTheme.colorScheme.background
@@ -31,6 +31,6 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun ThankApoloPreview(){
-    ThankApoloScreen(name = "이동건")
+fun MainPreview(){
+    MainScreen(name = "이동건")
 }

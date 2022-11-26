@@ -1,34 +1,32 @@
 package com.handson.thankapolo.ui.screen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.handson.thankapolo.component.ThankApoloTab
+import com.handson.thankapolo.navigation.BottomNavigationBar
+import com.handson.thankapolo.navigation.NavigationItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ThankApoloScreen(
+fun MainScreen(
     name: String
 ){
     val colorScheme = MaterialTheme.colorScheme
 
     val systemUiController = rememberSystemUiController()
 
-
-
+    val navController = rememberNavController()
+    
     SideEffect {
         systemUiController.setStatusBarColor(
             color = colorScheme.background,
@@ -36,12 +34,8 @@ fun ThankApoloScreen(
         )
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-    ) {
-        Column {
+    Scaffold(
+        topBar = {
             TopAppBar(
                 title = {
                     Text(text = "${name}의 감사과")
@@ -58,13 +52,15 @@ fun ThankApoloScreen(
                 },
                 modifier = Modifier.padding(start = 24.dp, end = 12.dp)
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            Column(modifier = Modifier.padding(horizontal = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                ThankApoloTab()
-            }
-
+        },
+        bottomBar = {
+            BottomNavigationBar(navController = navController)
+        },
+        containerColor = MaterialTheme.colorScheme.background
+    ){ padding ->
+        NavHost(navController = navController, startDestination = NavigationItem.Home.route, Modifier.padding(padding)){
+            composable(NavigationItem.Home.route){ ThankApoloScreen() }
+            composable(NavigationItem.Look.route){}
         }
     }
 }
