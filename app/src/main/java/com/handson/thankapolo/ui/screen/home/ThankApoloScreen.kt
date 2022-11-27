@@ -1,4 +1,4 @@
-package com.handson.thankapolo.ui.screen
+package com.handson.thankapolo.ui.screen.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,6 +16,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.handson.thankapolo.component.LetterCard
 import com.handson.thankapolo.component.ThankApoloTab
 import com.handson.thankapolo.navigation.BottomNavigationBar
 
@@ -25,9 +26,11 @@ fun ThankApoloScreen(
 ){
     Column(
         modifier = Modifier.padding(horizontal = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+//        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ThankApoloTab()
+        Spacer(modifier = Modifier.height(30.dp))
+        LetterCard()
     }
 
 }

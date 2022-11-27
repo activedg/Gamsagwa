@@ -19,6 +19,7 @@ import androidx.compose.ui.input.key.NativeKeyEvent
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.handson.thankapolo.ui.theme.Typography
@@ -28,17 +29,14 @@ import com.handson.thankapolo.ui.theme.seed_70
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    onLogin : () -> Unit
+    onLogin : () -> Unit,
+    navigateToSignUp : () -> Unit
 ){
     val colorScheme = MaterialTheme.colorScheme
 
     var userId = rememberSaveable{ mutableStateOf("") }
     var userPwd = rememberSaveable{ mutableStateOf("") }
     var pwdVisible = rememberSaveable { mutableStateOf(false)}
-
-    var isNicknameValid = rememberSaveable {
-        mutableStateOf(userId.value.length >= 4 && userPwd.value.length >= 6)
-    }
 
     val systemUiController = rememberSystemUiController()
     SideEffect {
@@ -105,10 +103,10 @@ fun LoginScreen(
             Spacer(
                 modifier = Modifier.height(30.dp)
             )
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = onLogin,
                 colors = ButtonDefaults.buttonColors(seed),
                 modifier = Modifier.fillMaxWidth(),
-                enabled = isNicknameValid.value
+                enabled = userId.value.length >= 4 && userPwd.value.length >= 6
             ) {
                 Text(text = "감사과에 로그인",
                     style = Typography.labelLarge,
@@ -117,7 +115,7 @@ fun LoginScreen(
             Spacer(
                 modifier = Modifier.weight(1.0f)
             )
-            Button(onClick = onLogin,
+            Button(onClick = navigateToSignUp,
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary),
                 modifier = Modifier
                     .fillMaxWidth()

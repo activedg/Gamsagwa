@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.navigation.compose.rememberNavController
+import com.handson.thankapolo.navigation.LoginNavHost
 import com.handson.thankapolo.ui.base.BaseActivity
 import com.handson.thankapolo.ui.screen.MainActivity
 import com.handson.thankapolo.ui.theme.ThankApoloTheme
@@ -15,8 +17,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginActivity : BaseActivity(){
     override fun initScreen() {
         setContent {
+            val navController = rememberNavController()
             ThankApoloTheme {
-                LoginScreen(onLogin = { moveToMain() })
+                LoginNavHost(
+                    navController = navController,
+                    onLogin = { moveToMain() },
+                    context = this
+                )
             }
         }
     }

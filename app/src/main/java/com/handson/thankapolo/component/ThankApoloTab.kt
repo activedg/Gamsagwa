@@ -26,9 +26,10 @@ fun ThankApoloTab(
             Box{}
         },
         modifier = Modifier
-            .clip(RoundedCornerShape(100.dp)),
+            .clip(RoundedCornerShape(100.dp))
+            .defaultMinSize(1.dp),
         divider = {},
-        edgePadding = 12.dp
+        edgePadding = 0.dp,
     ) {
         tabTitles.forEachIndexed { index, title ->
             val selected = tabIndex == index
@@ -45,12 +46,12 @@ fun ThankApoloTab(
                     .clip(RoundedCornerShape(50))
                     .background(
                         color = MaterialTheme.colorScheme.secondaryContainer
-                    ).zIndex(0.5f)
+                    )
                 else Modifier
                     .clip(RoundedCornerShape(50))
                     .background(
                         color = Color.Transparent
-                    ).zIndex(0.5f),
+                    ),
             )
         }
     }
