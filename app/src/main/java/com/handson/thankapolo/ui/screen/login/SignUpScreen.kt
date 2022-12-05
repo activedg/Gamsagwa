@@ -1,31 +1,31 @@
 package com.handson.thankapolo.ui.screen.login
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LifecycleOwner
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.handson.thankapolo.ui.theme.Typography
-import com.handson.thankapolo.ui.theme.seed
+import kotlinx.coroutines.coroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(
-    onSignUp : () -> Unit
+    viewModel: LoginViewModel
 ){
     val colorScheme = MaterialTheme.colorScheme
 
@@ -36,6 +36,7 @@ fun SignUpScreen(
     var pwdVisible = rememberSaveable { mutableStateOf(false)}
 
     val systemUiController = rememberSystemUiController()
+
     SideEffect {
         systemUiController.setStatusBarColor(
             color = colorScheme.background,
@@ -143,7 +144,7 @@ fun SignUpScreen(
                 modifier = Modifier.weight(1.0f)
             )
             Button(
-                onClick = onSignUp,
+                onClick = {viewModel.signUp(userId.value, userPwd.value, userName.value)},
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary),
                 modifier = Modifier
                     .fillMaxWidth()

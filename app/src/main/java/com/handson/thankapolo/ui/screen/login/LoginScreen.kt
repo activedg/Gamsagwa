@@ -74,9 +74,9 @@ fun LoginScreen(
             OutlinedTextField(
                 value = userId.value,
                 onValueChange = {userId.value = it},
-                label = { Text(text = "아이디")},
+                label = { Text(text = "이메일")},
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text(text = "아이디", style = Typography.bodyLarge)}
+                placeholder = { Text(text = "이메일", style = Typography.bodyLarge)}
             )
             Spacer(
                 modifier = Modifier.height(20.dp)
