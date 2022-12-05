@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.handson.thankapolo.notification.MyFirebaseService
 import com.handson.thankapolo.ui.base.BaseActivity
 import com.handson.thankapolo.ui.screen.login.LoginActivity
 import com.handson.thankapolo.ui.theme.ThankApoloTheme
@@ -24,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
     override fun initScreen() {
+        startService(Intent(this, MyFirebaseService::class.java))
         setContent {
             ThankApoloTheme {
                 SplashScreen(onClickLogin = {moveToLogin()})

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">감사과</string>
+    <string name="default_notification_channel_id">gamsagwa_channel</string>
 </resources>

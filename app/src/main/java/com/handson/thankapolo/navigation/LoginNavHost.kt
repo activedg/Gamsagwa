@@ -15,13 +15,12 @@ import com.handson.thankapolo.ui.screen.login.SignUpScreen
 @Composable
 fun LoginNavHost(
     navController: NavHostController,
-    onLogin : () -> Unit,
     viewModel : LoginViewModel,
     modifier: Modifier = Modifier
 ){
     NavHost(navController = navController, startDestination = "login"){
         composable("login"){ LoginScreen(
-            onLogin = onLogin,
+            viewModel = viewModel,
             navigateToSignUp = {
                 navController.navigate("signUp")
             }

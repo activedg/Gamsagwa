@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,8 +17,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: LoginRepository
+    private val repository: LoginRepository,
+    private val firebaseMessaging: FirebaseMessaging
 ) : ViewModel() {
+    private lateinit var fcmToken: String
+    init {
+        firebaseMessaging.token.addOnCompleteListener { task ->
+            if (!task.isSuccessful)
+                return@addOnCompleteListener
+            fcmToken = task.result
+            Log.e("token", fcmToken)
+        }
+    }
     private var _signUpData = MutableStateFlow("")
     val signUpData : StateFlow<String>
         get() = _signUpData
@@ -42,13 +53,16 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun signIn(email: String, password: String, fcmToken: String){
+    fun signIn(email: String, password: String){
         viewModelScope.launch {
             repository.signIn(email, password, fcmToken)
                 .catch { e ->
                     e.message?.let { _errorData.value = "비밀번호가 일치하지 않습니다." }
                 }.collectLatest {
-                    _signInData.value = it.data.accessToken
+                    if (it.success)
+                        _signInData.value = it.data.accessToken
+                    else
+                        _errorData.value = "비밀번호가 일치하지 않습니다."
                 }
         }
     }

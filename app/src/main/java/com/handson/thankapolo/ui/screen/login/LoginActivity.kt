@@ -18,6 +18,7 @@ import com.handson.thankapolo.navigation.LoginNavHost
 import com.handson.thankapolo.ui.base.BaseActivity
 import com.handson.thankapolo.ui.screen.MainActivity
 import com.handson.thankapolo.ui.theme.ThankApoloTheme
+import com.handson.thankapolo.utils.SharedPreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -26,13 +27,15 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LoginActivity : BaseActivity(){
     private val viewModel by viewModels<LoginViewModel>()
+    private val spfManager by lazy {
+        SharedPreferenceUtil(this)
+    }
     override fun initScreen() {
         setContent {
             val navController = rememberNavController()
             ThankApoloTheme {
                 LoginNavHost(
                     navController = navController,
-                    onLogin = { moveToMain() },
                     viewModel = viewModel
                 )
             }
@@ -51,14 +54,20 @@ class LoginActivity : BaseActivity(){
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 launch {
                     viewModel.signUpData.collectLatest{
-                        Log.e("called", it)
                         if (it.isNotEmpty()) navController.popBackStack()
                     }
                 }
                 launch {
                     viewModel.errorData.collectLatest {
-                        Log.e("called", it)
                         if (it.isNotEmpty()) Toast.makeText(this@LoginActivity, it, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                launch {
+                    viewModel.signInData.collectLatest {
+                        if (it.isNotEmpty()){
+                            spfManager.setUserToken(it)
+                            moveToMain()
+                        }
                     }
                 }
             }

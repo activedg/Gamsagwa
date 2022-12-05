@@ -82,10 +82,10 @@ fun SignUpScreen(
             OutlinedTextField(
                 value = userId.value,
                 onValueChange = { userId.value = it },
-                label = { Text(text = "아이디") },
+                label = { Text(text = "이메일") },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text(text = "아이디", style = Typography.bodyLarge)},
-                supportingText = { if(userId.value.length < 4) Text(text = "아이디는 네 글자 이상 이어야 합니다.", style = Typography.bodySmall)}
+                placeholder = { Text(text = "이메일", style = Typography.bodyLarge)},
+                supportingText = { if(userId.value.length < 4) Text(text = "이메일은 여섯 글자 이상 이어야 합니다.", style = Typography.bodySmall)}
             )
             Spacer(
                 modifier = Modifier.height(20.dp)
@@ -149,7 +149,7 @@ fun SignUpScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 50.dp),
-                enabled = userName.value.length >= 2 && userId.value.length >= 4 && userPwd.value.length >= 6 && userPwd.value == userPwdCheck.value
+                enabled = userName.value.length >= 2 && userId.value.length >= 6 && userPwd.value.length >= 6 && userPwd.value == userPwdCheck.value
             ) {
                 Text(
                     text = "회원가입",

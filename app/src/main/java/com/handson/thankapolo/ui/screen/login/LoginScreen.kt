@@ -29,7 +29,7 @@ import com.handson.thankapolo.ui.theme.seed_70
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    onLogin : () -> Unit,
+    viewModel: LoginViewModel,
     navigateToSignUp : () -> Unit
 ){
     val colorScheme = MaterialTheme.colorScheme
@@ -103,7 +103,7 @@ fun LoginScreen(
             Spacer(
                 modifier = Modifier.height(30.dp)
             )
-            Button(onClick = onLogin,
+            Button(onClick = {viewModel.signIn(userId.value, userPwd.value)},
                 colors = ButtonDefaults.buttonColors(seed),
                 modifier = Modifier.fillMaxWidth(),
                 enabled = userId.value.length >= 4 && userPwd.value.length >= 6
