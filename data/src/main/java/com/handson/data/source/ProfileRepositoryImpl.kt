@@ -23,4 +23,9 @@ class ProfileRepositoryImpl @Inject constructor(
     ): Flow<NicknameResponse> = flow {
         emit(gamsagwaService.changeNickname(NicknameDto(nickName)))
     }.flowOn(Dispatchers.IO)
+
+    override fun removeUser()
+    : Flow<Boolean> = flow {
+        emit(gamsagwaService.removeUser().isSuccessful)
+    }.flowOn(Dispatchers.IO)
 }

@@ -18,6 +18,10 @@ class ProfileViewModel @Inject constructor(
     val nicknameData : StateFlow<String>
         get() = _nicknameData
 
+    private var _successData = MutableStateFlow(false)
+    val successData : StateFlow<Boolean>
+        get() = _successData
+
     init {
         viewModelScope.launch {
             repository.getNickname()
@@ -36,6 +40,16 @@ class ProfileViewModel @Inject constructor(
                 .collect{
                     _nicknameData.value = ""
                     _nicknameData.value = it.data.nickname
+                }
+        }
+    }
+
+    fun removeUser(){
+        viewModelScope.launch {
+            repository.removeUser()
+                .catch {  }
+                .collectLatest {
+                    _successData.value = it
                 }
         }
     }

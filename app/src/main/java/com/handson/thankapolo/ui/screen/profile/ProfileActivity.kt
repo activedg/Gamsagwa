@@ -22,15 +22,16 @@ class ProfileActivity : BaseActivity() {
     override fun initScreen() {
         setContent {
             ThankApoloTheme {
-                ProfileScreen(finish = {finish()}, logout = {logout()})
+                ProfileScreen(finish = {finish()}, logout = {logout(it)})
             }
         }
     }
 
-    private fun logout(){
-        spfManager.removeUserToken()
-        Toast.makeText(this, "로그아웃을 완료하였습니다", Toast.LENGTH_SHORT).show()
+    private fun logout(remove : Boolean){
+        val msg = if (remove) "회원탈퇴를" else "로그아웃을"
+        Toast.makeText(this, "$msg 완료하였습니다", Toast.LENGTH_SHORT).show()
         finishAffinity()
         startActivity(Intent(this, LoginActivity::class.java))
+        spfManager.removeUserToken()
     }
 }

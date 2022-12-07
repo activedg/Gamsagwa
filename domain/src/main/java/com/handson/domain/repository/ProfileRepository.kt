@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface ProfileRepository {
     fun getNickname() : Flow<NicknameResponse>
     fun changeNickname(nickName: String) : Flow<NicknameResponse>
+    fun removeUser() : Flow<Boolean>
 }

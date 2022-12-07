@@ -37,11 +37,9 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun ProfileScreen(
     finish : () -> Unit,
-    logout : () -> Unit,
+    logout : (Boolean) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ){
-    val context = LocalContext.current
-
     val nicknameDialogVisible = rememberSaveable {
         mutableStateOf(false)
     }
@@ -159,14 +157,16 @@ fun ProfileScreen(
         // Logout Dialog
         if (logoutDialogVisible.value){
             ConfirmDialog(title = "로그아웃" , content = "정말로 로그아웃 하시겠습니까?",
-                onConfirm = logout, onDismiss = { logoutDialogVisible.value = false })
+                onConfirm = {logout(false)}, onDismiss = { logoutDialogVisible.value = false })
         }
 
         // Withdrawal Dialog
         if (withdrawalDialogVisible.value){
             ConfirmDialog(title = "회원탈퇴", content = "정말로 회원할퇴 하시겠습니까?",
                 onConfirm = {
-                }, onDismiss = {withdrawalDialogVisible.value = false})
+                    viewModel.removeUser()
+                    logout(true) },
+                onDismiss = {withdrawalDialogVisible.value = false})
         }
     }
 }
