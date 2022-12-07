@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.handson.thankapolo.ThankApoloApplication.Companion.spfManager
 import com.handson.thankapolo.navigation.LoginNavHost
 import com.handson.thankapolo.ui.base.BaseActivity
 import com.handson.thankapolo.ui.screen.MainActivity
@@ -27,9 +28,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LoginActivity : BaseActivity(){
     private val viewModel by viewModels<LoginViewModel>()
-    private val spfManager by lazy {
-        SharedPreferenceUtil(this)
-    }
     override fun initScreen() {
         setContent {
             val navController = rememberNavController()
@@ -54,11 +52,16 @@ class LoginActivity : BaseActivity(){
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 launch {
                     viewModel.signUpData.collectLatest{
-                        if (it.isNotEmpty()) navController.popBackStack()
+                        if (it.isNotEmpty()) {
+                            navController.popBackStack()
+                            Toast.makeText(this@LoginActivity, "회원가입에 성공하셨습니다",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
                 launch {
-                    viewModel.errorData.collectLatest {
+                    viewModel.errorData.collect {
                         if (it.isNotEmpty()) Toast.makeText(this@LoginActivity, it, Toast.LENGTH_SHORT).show()
                     }
                 }

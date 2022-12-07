@@ -5,7 +5,7 @@ import com.handson.data.model.login.UserSignUpDto
 import com.handson.data.remote.GamsagwaLoginService
 import com.handson.domain.data.login.SignInResponse
 import com.handson.domain.data.login.SignUpResponse
-import com.handson.domain.data.login.repository.LoginRepository
+import com.handson.domain.repository.LoginRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

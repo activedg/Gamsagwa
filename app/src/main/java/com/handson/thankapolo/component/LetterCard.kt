@@ -19,14 +19,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.handson.domain.data.home.Message
 import com.handson.thankapolo.ui.theme.Typography
 import com.handson.thankapolo.ui.theme.seed
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LetterCard(){
+fun LetterCard(
+    message: Message
+){
     var expandedState = rememberSaveable { mutableStateOf(false) }
 
+    // Todo : 임시로 message 타입에 아무거나 넣어놈
     Card(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -50,12 +54,12 @@ fun LetterCard(){
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.weight(1.0f)
             ) {
-                Text(text = "보낸 사람", style = Typography.bodyLarge)
-                Text(text = "제목", style = Typography.bodyMedium)
+                Text(text = message.title, style = Typography.bodyLarge)
+                Text(text = message.title, style = Typography.bodyMedium)
                 AnimatedVisibility(visible = expandedState.value){
                     Column() {
                         Spacer(modifier = Modifier.height(16.dp))
-                        Text(text = "test test test test test test\ntest test test test test test\ntest test test test test test\n")
+                        Text(text = message.messageType)
                     }
                 }
             }
@@ -65,3 +69,4 @@ fun LetterCard(){
 
     }
 }
+

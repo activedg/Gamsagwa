@@ -1,4 +1,4 @@
-package com.handson.domain.data.login.repository
+package com.handson.domain.repository
 
 import com.handson.domain.data.login.SignInResponse
 import com.handson.domain.data.login.SignUpResponse

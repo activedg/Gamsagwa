@@ -1,8 +1,6 @@
 package com.handson.thankapolo.ui.screen.login
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
@@ -12,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.handson.domain.data.login.repository.LoginRepository
+import com.handson.domain.repository.LoginRepository
 import javax.inject.Inject
 
 @HiltViewModel
@@ -57,12 +55,15 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             repository.signIn(email, password, fcmToken)
                 .catch { e ->
-                    e.message?.let { _errorData.value = "비밀번호가 일치하지 않습니다." }
-                }.collectLatest {
+                    e.message?.let {
+                        _errorData.value = ""
+                        _errorData.value = "비밀번호가 일치하지 않습니다."
+                    }
+                }.collect {
                     if (it.success)
                         _signInData.value = it.data.accessToken
                     else
-                        _errorData.value = "비밀번호가 일치하지 않습니다."
+                        _errorData.value = "존재하지 않는 이메일 입니다."
                 }
         }
     }

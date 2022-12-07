@@ -26,7 +26,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    onClickLogin : () -> Unit
+    onClickLogin : () -> Unit,
+    userExist: Boolean
 ) {
     val systemUiController = rememberSystemUiController()
     SideEffect {
@@ -116,18 +117,21 @@ fun SplashScreen(
             )
 
             Spacer(modifier = Modifier.weight(1f))
-            Button(
-                onClick = onClickLogin,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .padding(bottom = 50.dp),
-                colors = ButtonDefaults.buttonColors(seed)
-            ) {
-                Text(
-                    "감사과에 로그인",
-                    style = Typography.labelLarge
-                )
+
+            if (!userExist){
+                Button(
+                    onClick = onClickLogin,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .padding(bottom = 50.dp),
+                    colors = ButtonDefaults.buttonColors(seed)
+                ) {
+                    Text(
+                        "감사과에 로그인",
+                        style = Typography.labelLarge
+                    )
+                }
             }
         }
     }

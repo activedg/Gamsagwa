@@ -14,4 +14,21 @@ class SharedPreferenceUtil(context: Context) {
     fun setUserToken(token: String) {
         spfManager.edit().putString("user_token", token).apply()
     }
+
+    fun hasUserToken(): Boolean{
+        return spfManager.contains("user_token")
+    }
+
+    fun removeUserToken() {
+        spfManager.edit().remove("user_token").apply()
+    }
+
+    // Push Notification 설정
+    fun getPushNotification() : Boolean{
+        return spfManager.getBoolean("push_notification", true)
+    }
+
+    fun setPushNotification(pushable: Boolean){
+        spfManager.edit().putBoolean("push_notification", pushable)
+    }
 }

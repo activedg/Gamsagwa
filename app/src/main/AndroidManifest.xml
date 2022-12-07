@@ -33,6 +33,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.screen.profile.ProfileActivity"
+            android:exported="true"/>
         <service android:name=".notification.MyFirebaseService"
             android:enabled="true"
             android:exported="true">

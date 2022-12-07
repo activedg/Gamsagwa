@@ -32,19 +32,9 @@ fun LoginScreen(
     viewModel: LoginViewModel,
     navigateToSignUp : () -> Unit
 ){
-    val colorScheme = MaterialTheme.colorScheme
-
     var userId = rememberSaveable{ mutableStateOf("") }
     var userPwd = rememberSaveable{ mutableStateOf("") }
     var pwdVisible = rememberSaveable { mutableStateOf(false)}
-
-    val systemUiController = rememberSystemUiController()
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = colorScheme.background,
-            darkIcons = true
-        )
-    }
 
     Box(
         modifier = Modifier

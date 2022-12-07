@@ -20,39 +20,25 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.handson.thankapolo.navigation.BottomNavigationBar
 import com.handson.thankapolo.navigation.NavigationItem
 import com.handson.thankapolo.ui.screen.home.ThankApoloScreen
+import com.handson.thankapolo.ui.theme.Typography
 import com.handson.thankapolo.ui.theme.seed
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    name: String
+    name: String,
+    moveToProfile: () -> Unit
 ){
-    val colorScheme = MaterialTheme.colorScheme
-
-    val systemUiController = rememberSystemUiController()
-
     val navController = rememberNavController()
-    
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = colorScheme.background,
-            darkIcons = true
-        )
-    }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "${name}의 감사과")
+                    Text(text = "${name}의 감사과", style = Typography.headlineMedium)
                 },
                 actions = {
-                    IconButton(
-                        onClick = { /*TODO*/ },
-                    ) {
-                        Icon(imageVector = Icons.Filled.Notifications, contentDescription = null)
-                    }
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = moveToProfile) {
                         Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = null)
                     }
                 },
