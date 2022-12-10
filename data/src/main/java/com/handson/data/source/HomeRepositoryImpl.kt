@@ -24,4 +24,10 @@ class HomeRepositoryImpl @Inject constructor(
     ): Flow<Boolean> = flow {
         emit(gamsagwaService.deleteMessage(messageId).success)
     }.flowOn(Dispatchers.IO)
+
+    override fun changeVisibility(
+        messageId: Long
+    ): Flow<Boolean> = flow {
+        emit(gamsagwaService.changeMessageVisible(messageId).data.hidden)
+    }.flowOn(Dispatchers.IO)
 }

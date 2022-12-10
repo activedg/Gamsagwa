@@ -11,9 +11,16 @@ data class MessageList(
     val messages: List<Message>
 )
 
+data class MessageItemResponse(
+    val status : Int,
+    val success : Boolean,
+    val message: String,
+    val data: Message
+)
+
 data class Message(
     val messageId: Long,
-    val hidden: Boolean,
+    var hidden: Boolean,
     val description: String,
     val messageType: String,
     val senderNickName: String,

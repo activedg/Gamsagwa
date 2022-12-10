@@ -37,7 +37,7 @@ import com.handson.thankapolo.ui.theme.thank_color
 @Composable
 fun LetterCard(
     message: Message,
-    onHide: (Long) -> Unit,
+    onHide: (Message) -> Unit,
     onDelete: (Message) -> Unit
 ){
     var expandedState = rememberSaveable { mutableStateOf(false) }
@@ -96,7 +96,7 @@ fun LetterCard(
                                 textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()
                             )},
                                 onClick = {
-                                    onHide(message.messageId)
+                                    onHide(message)
                                     dropDownExpanded.value = false
                                 },
                                 modifier = Modifier.fillMaxWidth()
@@ -117,7 +117,8 @@ fun LetterCard(
                 AnimatedVisibility(visible = expandedState.value, modifier = Modifier.padding(end = 12.dp)) {
                     Column(modifier = Modifier.fillMaxWidth()) {
                         Spacer(modifier = Modifier.height(24.dp))
-                        Text(text = message.senderNickName, style = Typography.bodyLarge)
+                        Text(text = if (message.nameBlind || message.senderNickName == "익명") "익명으로 보냄"
+                            else "보낸 사람 : ${message.senderNickName}" , style = Typography.bodyLarge)
                         Spacer(modifier = Modifier.height(24.dp))
                         Text(text = message.description, style = Typography.bodyMedium)
                         Spacer(modifier = Modifier.height(24.dp))

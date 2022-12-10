@@ -25,6 +25,16 @@ class MainViewModel @Inject constructor(
     private lateinit var fcmToken : String
 
     init {
+        getNickname()
+        firebaseMessaging.token.addOnCompleteListener { task ->
+            if (!task.isSuccessful)
+                return@addOnCompleteListener
+            fcmToken = task.result
+            Log.e("fcm Token", fcmToken)
+        }
+    }
+
+    fun getNickname(){
         viewModelScope.launch {
             repository.getNickname()
                 .catch {  }
@@ -32,12 +42,6 @@ class MainViewModel @Inject constructor(
                     if (it.success)
                         _nicknameData.value = it.data.nickname
                 }
-        }
-        firebaseMessaging.token.addOnCompleteListener { task ->
-            if (!task.isSuccessful)
-                return@addOnCompleteListener
-            fcmToken = task.result
-            Log.e("fcm Token", fcmToken)
         }
     }
 }

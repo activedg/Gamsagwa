@@ -73,9 +73,12 @@ fun MainScreen(
             composable(NavigationItem.Look.route){}
         }
 
-        AnimatedVisibility(visible = sendDialogVisible.value, enter = fadeIn(), exit = fadeOut()) {
+
+        if (sendDialogVisible.value){
             SendDialog(onDismiss = {sendDialogVisible.value = false})
         }
+//        AnimatedVisibility(visible = sendDialogVisible.value, enter = slideInVertically(), exit = slideOutVertically()) {
+//        }
 
     }
 }

@@ -25,14 +25,23 @@ class ThankApoloViewModel @Inject constructor(
     private var _totalData = mutableListOf<Message>()
 
     private var _currentType = 0
+    private var _curMessage: Message? = null
 
     init {
+        getMessageData()
+    }
+
+    private fun getMessageData(){
         viewModelScope.launch {
             repository.getMessageList()
                 .catch {  }
                 .collect{
-                    _letterData.value = it.toMutableList()
                     _totalData = it.toMutableList()
+                    _letterData.value = when (_currentType){
+                        0 ->  _totalData
+                        1 ->  _totalData.filter { m -> m.messageType == "THANK" }.toMutableList()
+                        else ->  _totalData.filter { m -> m.messageType == "SORRY" }.toMutableList()
+                    }
                 }
         }
     }
@@ -48,23 +57,41 @@ class ThankApoloViewModel @Inject constructor(
         _currentType = type
     }
 
-    fun deleteMessage(message : Message){
-        viewModelScope.launch {
-            repository.deleteMessage(message.messageId)
-                .catch {  }
-                .collectLatest{
-                    if (it) {
-                        _toastMessage.emit("메시지 삭제에 성공하였습니다.")
-                        _totalData.remove(message)
-                        _letterData.value = when (_currentType){
-                            0 ->  _totalData
-                            1 ->  _totalData.filter { m -> m.messageType == "THANK" }.toMutableList()
-                            else ->  _totalData.filter { m -> m.messageType == "SORRY" }.toMutableList()
-                        }
+    fun setCurrentMessage(message: Message){
+        _curMessage = message
+    }
 
+    fun deleteMessage(){
+        viewModelScope.launch {
+            _curMessage?.messageId?.let {
+                repository.deleteMessage(it)
+                    .catch {  }
+                    .collectLatest{ b->
+                        if (b) {
+                            _toastMessage.emit("메시지 삭제에 성공하였습니다.")
+                            _totalData.remove(_curMessage)
+                            _letterData.value = when (_currentType){
+                                0 ->  _totalData
+                                1 ->  _totalData.filter { m -> m.messageType == "THANK" }.toMutableList()
+                                else ->  _totalData.filter { m -> m.messageType == "SORRY" }.toMutableList()
+                            }
+
+                        } else _toastMessage.emit("메시지 삭제에 실패하였습니다.")
                     }
-                    else _toastMessage.emit("메시지 삭제에 실패하였습니다.")
-                }
+            }
+        }
+    }
+
+    fun changeVisibility(){
+        viewModelScope.launch {
+            _curMessage?.messageId?.let {
+                repository.changeVisibility(it)
+                    .catch { e -> e.message?.let { _toastMessage.emit("숨김 상태 변화에 실패하였습니다.") } }
+                    .collectLatest {
+                        getMessageData()
+                        _toastMessage.emit("숨김 상태 변화에 성공하였습니다.")
+                    }
+            }
         }
     }
 }

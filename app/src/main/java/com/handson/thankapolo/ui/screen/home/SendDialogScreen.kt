@@ -66,7 +66,7 @@ fun SendDialog(
 
 
     Dialog(onDismissRequest = onDismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false),
     ) {
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -237,9 +237,9 @@ fun SendDialog(
                             title.value.isNotEmpty() && content.value.isNotEmpty()
                     ) {
                         Text(text = "전송", style = Typography.labelMedium)
-                    } 
+                    }
                 }
-               
+
             }
         }
     }

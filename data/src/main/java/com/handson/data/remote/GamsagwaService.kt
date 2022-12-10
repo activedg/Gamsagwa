@@ -3,6 +3,7 @@ package com.handson.data.remote
 import com.handson.data.model.DefaultResponse
 import com.handson.data.model.profile.NicknameDto
 import com.handson.domain.data.home.Message
+import com.handson.domain.data.home.MessageItemResponse
 import com.handson.domain.data.home.MessageList
 import com.handson.domain.data.home.MessageResponse
 import com.handson.domain.data.profile.NicknameResponse
@@ -31,4 +32,7 @@ interface GamsagwaService {
     // 메시지 삭제
     @DELETE("/message/{messageId}")
     suspend fun deleteMessage(@Path("messageId") messageId: Long) : DefaultResponse
+    // 메시지 숨김 관리
+    @PATCH("/message/hidden/{messageId}")
+    suspend fun changeMessageVisible(@Path("messageId") messageId: Long) : MessageItemResponse
 }
