@@ -6,7 +6,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.tooling.preview.Preview
 import com.handson.thankapolo.ui.base.BaseActivity
 import com.handson.thankapolo.ui.screen.login.LoginActivity
@@ -17,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
+    private val viewModel by viewModels<MainViewModel>()
     private val callback = object : OnBackPressedCallback(true){
         override fun handleOnBackPressed() {
             finishAffinity()
@@ -25,8 +31,9 @@ class MainActivity : BaseActivity() {
     override fun initScreen() {
         this.onBackPressedDispatcher.addCallback(callback)
         setContent {
+            val name by viewModel.nicknameData.collectAsState()
             ThankApoloTheme {
-                MainScreen(name = "이동건", moveToProfile = {moveToProfile()})
+                MainScreen(name = name, moveToProfile = {moveToProfile()})
             }
         }
     }

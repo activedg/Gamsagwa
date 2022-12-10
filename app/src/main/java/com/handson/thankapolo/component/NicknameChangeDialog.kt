@@ -25,7 +25,7 @@ import com.handson.thankapolo.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun NicknameCahngeDialog(
+fun NicknameChangeDialog(
     onNicknameChange : (String) -> Unit,
     onDismissRequest : () -> Unit
 ){
@@ -64,7 +64,7 @@ fun NicknameCahngeDialog(
                 }
             )
             Spacer(modifier = Modifier.height(24.dp))
-            Button(onClick = { /*TODO*/ }, enabled = (nickname.value.length in 2..6))
+            Button(onClick = { onNicknameChange(nickname.value) }, enabled = (nickname.value.length in 2..6))
             {
                 Text(text = "수정", style = Typography.labelMedium,)
             }

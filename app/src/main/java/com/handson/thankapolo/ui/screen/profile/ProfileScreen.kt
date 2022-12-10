@@ -28,7 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.handson.thankapolo.ThankApoloApplication.Companion.spfManager
 import com.handson.thankapolo.component.ConfirmDialog
-import com.handson.thankapolo.component.NicknameCahngeDialog
+import com.handson.thankapolo.component.NicknameChangeDialog
 import com.handson.thankapolo.ui.screen.login.LoginActivity
 import com.handson.thankapolo.ui.theme.Typography
 import kotlinx.coroutines.flow.collectLatest
@@ -150,8 +150,11 @@ fun ProfileScreen(
         }
 
         // Nickname Dialog
-        if (nicknameDialogVisible.value){
-            NicknameCahngeDialog(onNicknameChange = {}, onDismissRequest = {nicknameDialogVisible.value = false})
+        if (nicknameDialogVisible.value) {
+            NicknameChangeDialog(onNicknameChange = {
+                viewModel.nicknameChange(it)
+                nicknameDialogVisible.value = false
+            }, onDismissRequest = { nicknameDialogVisible.value = false })
         }
 
         // Logout Dialog
@@ -170,3 +173,5 @@ fun ProfileScreen(
         }
     }
 }
+
+

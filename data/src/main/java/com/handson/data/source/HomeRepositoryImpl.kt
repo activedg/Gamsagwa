@@ -15,6 +15,6 @@ class HomeRepositoryImpl @Inject constructor(
 ) : HomeRepository{
     override fun getMessageList()
     : Flow<List<Message>> = flow {
-        emit(gamsagwaService.getMessageList().messages)
+        emit(gamsagwaService.getMessageList().data.messages)
     }.flowOn(Dispatchers.IO)
 }

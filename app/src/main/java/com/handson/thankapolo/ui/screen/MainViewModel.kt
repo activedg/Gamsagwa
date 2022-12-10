@@ -1,19 +1,20 @@
-package com.handson.thankapolo.ui.screen.profile
+package com.handson.thankapolo.ui.screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.handson.domain.repository.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val repository: ProfileRepository
 ) : ViewModel(){
-
     private var _nicknameData = MutableStateFlow("")
     val nicknameData : StateFlow<String>
         get() = _nicknameData
@@ -26,25 +27,6 @@ class ProfileViewModel @Inject constructor(
                     if (it.success)
                         _nicknameData.value = it.data.nickname
                 }
-        }
-    }
-
-    fun nicknameChange(nickname: String){
-        viewModelScope.launch {
-            repository.changeNickname(nickname)
-                .catch { Log.e("error", it.message.toString()) }
-                .collectLatest{
-                    if (it.success)
-                        _nicknameData.value = it.data.nickname
-                }
-        }
-    }
-
-    fun removeUser(){
-        viewModelScope.launch {
-            repository.removeUser()
-                .catch {  }
-                .collect()
         }
     }
 }

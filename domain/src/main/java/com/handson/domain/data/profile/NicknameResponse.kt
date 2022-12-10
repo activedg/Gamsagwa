@@ -1,6 +1,5 @@
 package com.handson.domain.data.profile
 
-import com.handson.domain.data.login.SignInData
 
 data class NicknameResponse(
     val message: String,
