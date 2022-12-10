@@ -21,13 +21,26 @@ class ThankApoloViewModel @Inject constructor(
     val letterData : StateFlow<List<Message>>
         get() = _letterData
 
+    private var _totalData = mutableListOf<Message>()
+
     init {
         viewModelScope.launch {
             repository.getMessageList()
                 .catch {  }
                 .collect{
                     _letterData.value = it
+                    _totalData = it as MutableList<Message>
                 }
+        }
+    }
+
+    fun setMessageType(type: Int){
+        // type 값에 따라 홈화면에서 보여질 편지 데이터 필터링
+        // 0 : 전체, 1: 감사함, 2: 미안함
+        when(type){
+            0 -> _letterData.value = _totalData
+            1 -> _letterData.value = _totalData.filter { m -> m.messageType == "THANK" }
+            2 -> _letterData.value = _totalData.filter { m -> m.messageType == "SORRY" }
         }
     }
 }

@@ -36,8 +36,8 @@ fun ThankApoloScreen(
     Column(
         modifier = Modifier.padding(horizontal = 24.dp),
     ) {
-        ThankApoloTab()
-        Spacer(modifier = Modifier.height(30.dp))
+        ThankApoloTab(onTabClick = {viewModel.setMessageType(it)})
+        Spacer(modifier = Modifier.height(20.dp))
         // Todo : 메시지 리스트가 빈 거 일때 보여주는 화면 만들기
         messageList?.let {
             if (it.isEmpty()){
@@ -45,7 +45,7 @@ fun ThankApoloScreen(
             } else{
                 LazyColumn{
                     items(it){ item ->
-                        if (!item.hidden) LetterCard(item)
+                        if (!item.hidden) LetterCard(item, onDelete = {}, onHide = {})
                     }
                 }
             }

@@ -101,4 +101,6 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0")
 
     implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha01"
+
+    implementation 'com.google.accompanist:accompanist-swiperefresh:0.24.13-rc'
 }

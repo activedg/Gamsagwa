@@ -17,6 +17,7 @@ import com.handson.thankapolo.ui.theme.Typography
 
 @Composable
 fun ThankApoloTab(
+    onTabClick : (Int) -> Unit
 ){
     var tabIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf("전체", "감사함", "미안함")
@@ -34,7 +35,9 @@ fun ThankApoloTab(
         tabTitles.forEachIndexed { index, title ->
             val selected = tabIndex == index
             Tab(selected = selected,
-                onClick = { tabIndex = index },
+                onClick = {
+                    tabIndex = index
+                    onTabClick(index) },
                 text = { Text(
                     text = tabTitles[index],
                     style = Typography.labelMedium,

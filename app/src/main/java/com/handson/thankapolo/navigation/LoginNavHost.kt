@@ -16,7 +16,6 @@ import com.handson.thankapolo.ui.screen.login.SignUpScreen
 fun LoginNavHost(
     navController: NavHostController,
     viewModel : LoginViewModel,
-    modifier: Modifier = Modifier
 ){
     NavHost(navController = navController, startDestination = "login"){
         composable("login"){ LoginScreen(

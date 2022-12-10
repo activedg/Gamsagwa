@@ -1,5 +1,8 @@
 package com.handson.thankapolo.ui.screen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -8,17 +11,19 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.handson.thankapolo.navigation.BottomNavigationBar
 import com.handson.thankapolo.navigation.NavigationItem
+import com.handson.thankapolo.ui.screen.home.SendDialog
 import com.handson.thankapolo.ui.screen.home.ThankApoloScreen
 import com.handson.thankapolo.ui.theme.Typography
 import com.handson.thankapolo.ui.theme.seed
@@ -30,6 +35,10 @@ fun MainScreen(
     moveToProfile: () -> Unit
 ){
     val navController = rememberNavController()
+
+    val sendDialogVisible = rememberSaveable() {
+        mutableStateOf(false)
+    }
 
     Scaffold(
         topBar = {
@@ -50,7 +59,7 @@ fun MainScreen(
         },
         containerColor = MaterialTheme.colorScheme.background,
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ },
+            FloatingActionButton(onClick = {sendDialogVisible.value = true},
                 containerColor = seed,
                 contentColor = Color.White,
                 shape = CircleShape,
@@ -65,5 +74,10 @@ fun MainScreen(
             composable(NavigationItem.Home.route){ ThankApoloScreen() }
             composable(NavigationItem.Look.route){}
         }
+
+        AnimatedVisibility(visible = sendDialogVisible.value, enter = expandIn(), exit = shrinkOut()) {
+            SendDialog(onDismiss = {sendDialogVisible.value = false})
+        }
+
     }
 }
