@@ -1,6 +1,8 @@
 package com.handson.data.remote
 
+import com.handson.data.model.DefaultResponse
 import com.handson.data.model.profile.NicknameDto
+import com.handson.domain.data.home.Message
 import com.handson.domain.data.home.MessageList
 import com.handson.domain.data.home.MessageResponse
 import com.handson.domain.data.profile.NicknameResponse
@@ -9,6 +11,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.Path
 
 interface GamsagwaService {
     // 홈화면 메시지 받기
@@ -24,4 +27,8 @@ interface GamsagwaService {
     // 회원 탈퇴
     @DELETE("/auth/withdrawal")
     suspend fun removeUser() : Response<String?>
+
+    // 메시지 삭제
+    @DELETE("/message/{messageId}")
+    suspend fun deleteMessage(@Path("messageId") messageId: Long) : DefaultResponse
 }

@@ -1,5 +1,6 @@
 package com.handson.data.source
 
+import android.util.Log
 import com.handson.data.remote.GamsagwaService
 import com.handson.domain.data.home.Message
 import com.handson.domain.data.home.MessageList
@@ -16,5 +17,11 @@ class HomeRepositoryImpl @Inject constructor(
     override fun getMessageList()
     : Flow<List<Message>> = flow {
         emit(gamsagwaService.getMessageList().data.messages)
+    }.flowOn(Dispatchers.IO)
+
+    override fun deleteMessage(
+        messageId: Long
+    ): Flow<Boolean> = flow {
+        emit(gamsagwaService.deleteMessage(messageId).success)
     }.flowOn(Dispatchers.IO)
 }

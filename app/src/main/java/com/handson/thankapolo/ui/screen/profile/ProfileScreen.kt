@@ -102,7 +102,8 @@ fun ProfileScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(text = "푸시 알림", modifier = Modifier.weight(1f), style = Typography.bodyLarge)
-                Switch(checked = isNotification.value, onCheckedChange = {isNotification.value = it},
+                Switch(checked = isNotification.value,
+                    onCheckedChange = {isNotification.value = !isNotification.value.also{ spfManager.setPushNotification(!it)}},
                 )
             }
 

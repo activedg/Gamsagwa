@@ -38,7 +38,7 @@ import com.handson.thankapolo.ui.theme.thank_color
 fun LetterCard(
     message: Message,
     onHide: (Long) -> Unit,
-    onDelete: (Long) -> Unit
+    onDelete: (Message) -> Unit
 ){
     var expandedState = rememberSaveable { mutableStateOf(false) }
 
@@ -105,7 +105,7 @@ fun LetterCard(
                                 textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()
                             )},
                                 onClick = {
-                                    onDelete(message.messageId)
+                                    onDelete(message)
                                     dropDownExpanded.value = false
                                 },
                                 modifier = Modifier.fillMaxWidth()

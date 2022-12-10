@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 class SplashActivity : BaseActivity() {
     override fun initScreen() {
         startService(Intent(this, MyFirebaseService::class.java))
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             delay(2000)
             if (spfManager.hasUserToken())
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java),

@@ -2,6 +2,7 @@ package com.handson.thankapolo.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 class SharedPreferenceUtil(context: Context) {
     private val spfManager: SharedPreferences =
@@ -29,6 +30,7 @@ class SharedPreferenceUtil(context: Context) {
     }
 
     fun setPushNotification(pushable: Boolean){
-        spfManager.edit().putBoolean("push_notification", pushable)
+        Log.e("push notif", "푸시 알림 : $pushable")
+        spfManager.edit().putBoolean("push_notification", pushable).apply()
     }
 }

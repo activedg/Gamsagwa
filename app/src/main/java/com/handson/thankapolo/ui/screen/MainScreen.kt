@@ -1,8 +1,6 @@
 package com.handson.thankapolo.ui.screen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandIn
-import androidx.compose.animation.shrinkOut
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -75,7 +73,7 @@ fun MainScreen(
             composable(NavigationItem.Look.route){}
         }
 
-        AnimatedVisibility(visible = sendDialogVisible.value, enter = expandIn(), exit = shrinkOut()) {
+        AnimatedVisibility(visible = sendDialogVisible.value, enter = fadeIn(), exit = fadeOut()) {
             SendDialog(onDismiss = {sendDialogVisible.value = false})
         }
 

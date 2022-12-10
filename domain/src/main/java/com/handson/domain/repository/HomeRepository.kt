@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
     fun getMessageList() : Flow<List<Message>>
+    fun deleteMessage(messageId: Long) : Flow<Boolean>
 }

@@ -13,6 +13,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.handson.thankapolo.R
+import com.handson.thankapolo.ThankApoloApplication.Companion.spfManager
 
 class MyFirebaseService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
@@ -36,20 +37,25 @@ class MyFirebaseService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-        super.onMessageReceived(message)
 
-        val from = message.from
-        val title = message.notification?.title
-        val body = message.notification?.body
+        if (spfManager.getPushNotification()) {
+            super.onMessageReceived(message)
+
+            val from = message.from
+            val title = message.notification?.title
+            val body = message.notification?.body
 
 /*
         // 데이터 페이로드가 포함된 경우
         val requestId = Integer.parseInt(message.data["requestId"])
      */
-        Log.d(TAG, "message received : $message")
-        Log.d(TAG, "from : $from title : $title body : $body")
+            Log.d(TAG, "message received : $message")
+            Log.d(TAG, "from : $from title : $title body : $body")
 
-        title?.let { body?.let { sendNotification(title, body) } }
+
+            title?.let { body?.let { sendNotification(title, body) } }
+        }
+
     }
 
     private fun sendNotification(title: String, text: String){
