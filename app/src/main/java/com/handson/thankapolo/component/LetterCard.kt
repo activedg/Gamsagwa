@@ -44,14 +44,15 @@ fun LetterCard(
 
     val dropDownExpanded = remember { mutableStateOf(false)}
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth(),
+    ) {
         Spacer(modifier = Modifier.height(10.dp))
         Card(
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = if (message.hidden) Color.LightGray else Color.White,),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
             onClick = { expandedState.value = !expandedState.value },
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             Column(
                 modifier = Modifier
@@ -92,7 +93,7 @@ fun LetterCard(
                         DropdownMenu(expanded = dropDownExpanded.value, onDismissRequest = { dropDownExpanded.value = false },
                             modifier = Modifier.align(Alignment.End)
                         ) {
-                            DropdownMenuItem(text = { Text(text = "숨김", style = Typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+                            DropdownMenuItem(text = { Text(text = if (message.hidden) "숨김 해제" else "숨김", style = Typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
                                 textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()
                             )},
                                 onClick = {

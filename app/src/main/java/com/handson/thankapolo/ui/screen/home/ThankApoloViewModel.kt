@@ -21,17 +21,20 @@ class ThankApoloViewModel @Inject constructor(
     private val _toastMessage = MutableSharedFlow<String>()
     val toastMessage = _toastMessage.asSharedFlow()
 
-
     private var _totalData = mutableListOf<Message>()
 
     private var _currentType = 0
     private var _curMessage: Message? = null
 
+    private val _successData = MutableStateFlow(false)
+    val successData : StateFlow<Boolean>
+        get() = _successData
+
     init {
         getMessageData()
     }
 
-    private fun getMessageData(){
+    fun getMessageData(){
         viewModelScope.launch {
             repository.getMessageList()
                 .catch {  }
@@ -69,12 +72,7 @@ class ThankApoloViewModel @Inject constructor(
                     .collectLatest{ b->
                         if (b) {
                             _toastMessage.emit("메시지 삭제에 성공하였습니다.")
-                            _totalData.remove(_curMessage)
-                            _letterData.value = when (_currentType){
-                                0 ->  _totalData
-                                1 ->  _totalData.filter { m -> m.messageType == "THANK" }.toMutableList()
-                                else ->  _totalData.filter { m -> m.messageType == "SORRY" }.toMutableList()
-                            }
+                            getMessageData()
 
                         } else _toastMessage.emit("메시지 삭제에 실패하였습니다.")
                     }
@@ -92,6 +90,18 @@ class ThankApoloViewModel @Inject constructor(
                         _toastMessage.emit("숨김 상태 변화에 성공하였습니다.")
                     }
             }
+        }
+    }
+
+    fun sendMessage(title: String, description: String, receiverEmail: String, messageType: Int, nameBlind: Boolean){
+        viewModelScope.launch {
+            repository.sendMessage(title, description, receiverEmail, if (messageType == 1) "THANK" else "SORRY", nameBlind)
+                .catch { it.message?.let { _toastMessage.emit("이메일이 올바르지 않습니다.") } }
+                .collectLatest {
+                    _successData.value = it
+                    if (it) _toastMessage.emit("메시지 전송에 성공하였습니다.")
+                    else _toastMessage.emit("이메일이 올바르지 않습니다.")
+                }
         }
     }
 }

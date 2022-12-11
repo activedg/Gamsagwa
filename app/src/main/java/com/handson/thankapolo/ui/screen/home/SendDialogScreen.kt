@@ -1,5 +1,6 @@
 package com.handson.thankapolo.ui.screen.home
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -25,6 +27,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -33,13 +36,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.handson.thankapolo.ui.theme.Typography
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SendDialog(
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    viewModel: ThankApoloViewModel = hiltViewModel()
 ){
+    val context = LocalContext.current
+
     val categorySelect = rememberSaveable() {
         mutableStateOf(0)
     }
@@ -64,6 +72,17 @@ fun SendDialog(
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    LaunchedEffect(Unit){
+        viewModel.toastMessage.collectLatest {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    LaunchedEffect(Unit){
+        viewModel.successData.collectLatest {
+            if (it) run(onDismiss)
+        }
+    }
 
     Dialog(onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false),
@@ -149,7 +168,7 @@ fun SendDialog(
                                     .focusRequester(focusRequester)
                                 ) {
                                     if (receiver.value.isEmpty()) {
-                                        Text(text = "이메일이나 이름을 입력해주세요.", style = Typography.bodyLarge, color = Color.Gray)
+                                        Text(text = "이메일을 입력해주세요.", style = Typography.bodyLarge, color = Color.Gray)
                                     }
                                 }
                                 innerTextField()
@@ -192,7 +211,7 @@ fun SendDialog(
                                     .focusRequester(focusRequester)
                                 ) {
                                     if (title.value.isEmpty()) {
-                                        Text(text = "제목", style = Typography.bodyLarge, color = Color.Gray)
+                                        Text(text = "제목은 20자 이하이어야 합니다.", style = Typography.bodyLarge, color = Color.Gray)
                                     }
                                 }
                                 innerTextField()
@@ -233,8 +252,8 @@ fun SendDialog(
                         Text(text = "취소", style = Typography.labelMedium, color = Color.Black)
                     }
                     Spacer(modifier = Modifier.width(12.dp))
-                    Button(onClick = { /*TODO*/ }, enabled = categorySelect.value > 0 &&
-                            title.value.isNotEmpty() && content.value.isNotEmpty()
+                    Button(onClick = {viewModel.sendMessage(title.value, content.value, receiver.value, categorySelect.value,anonymous.value)},
+                        enabled = categorySelect.value > 0 && title.value.length in 1..20 && content.value.isNotEmpty()
                     ) {
                         Text(text = "전송", style = Typography.labelMedium)
                     }
@@ -243,10 +262,4 @@ fun SendDialog(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewSendScreen(){
-    SendDialog(onDismiss = {})
 }

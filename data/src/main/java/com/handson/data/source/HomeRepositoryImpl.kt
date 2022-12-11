@@ -4,6 +4,7 @@ import android.util.Log
 import com.handson.data.remote.GamsagwaService
 import com.handson.domain.data.home.Message
 import com.handson.domain.data.home.MessageList
+import com.handson.domain.data.home.MessageSend
 import com.handson.domain.repository.HomeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -29,5 +30,15 @@ class HomeRepositoryImpl @Inject constructor(
         messageId: Long
     ): Flow<Boolean> = flow {
         emit(gamsagwaService.changeMessageVisible(messageId).data.hidden)
+    }.flowOn(Dispatchers.IO)
+
+    override fun sendMessage(
+        title: String,
+        description: String,
+        receiverEmail: String,
+        messageType: String,
+        nameBlind: Boolean
+    ): Flow<Boolean> = flow {
+        emit(gamsagwaService.sendMessage(MessageSend(title, description, receiverEmail, messageType, nameBlind)).success)
     }.flowOn(Dispatchers.IO)
 }

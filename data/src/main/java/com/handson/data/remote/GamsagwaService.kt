@@ -2,16 +2,14 @@ package com.handson.data.remote
 
 import com.handson.data.model.DefaultResponse
 import com.handson.data.model.profile.NicknameDto
-import com.handson.domain.data.home.Message
-import com.handson.domain.data.home.MessageItemResponse
-import com.handson.domain.data.home.MessageList
-import com.handson.domain.data.home.MessageResponse
+import com.handson.domain.data.home.*
 import com.handson.domain.data.profile.NicknameResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface GamsagwaService {
@@ -35,4 +33,7 @@ interface GamsagwaService {
     // 메시지 숨김 관리
     @PATCH("/message/hidden/{messageId}")
     suspend fun changeMessageVisible(@Path("messageId") messageId: Long) : MessageItemResponse
+    // 메시지 전송
+    @POST("/message")
+    suspend fun sendMessage(@Body messageSend: MessageSend) : MessageSendResponse
 }
