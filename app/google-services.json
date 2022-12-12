@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "26605209667",
+    "project_id": "thankapolo",
+    "storage_bucket": "thankapolo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26605209667:android:034f44d37a821ce4cbacf6",
+        "android_client_info": {
+          "package_name": "com.handson.thankapolo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "26605209667-4efp348snsg8ldhj3t93d7jb4hb5m9oj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqnp6K48KtIu5J0giRKapLkh9NoL4R0vg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "26605209667-4efp348snsg8ldhj3t93d7jb4hb5m9oj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
