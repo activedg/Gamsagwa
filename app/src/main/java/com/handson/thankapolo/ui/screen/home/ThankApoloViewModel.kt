@@ -1,10 +1,12 @@
 package com.handson.thankapolo.ui.screen.home
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.handson.domain.data.home.Message
 import com.handson.domain.repository.HomeRepository
+import com.handson.domain.repository.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -12,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ThankApoloViewModel @Inject constructor(
-    private val repository: HomeRepository
+    private val repository: HomeRepository,
+    private val profileRepository: ProfileRepository
 ) : ViewModel(){
     private var _letterData = MutableStateFlow<MutableList<Message>>(mutableListOf())
     val letterData : StateFlow<MutableList<Message>>
@@ -26,11 +29,19 @@ class ThankApoloViewModel @Inject constructor(
     private var _currentType = 0
     private var _curMessage: Message? = null
 
+
+
+    private var _nicknameData = MutableStateFlow("")
+    val nicknameData : StateFlow<String>
+        get() = _nicknameData
+
+
     private val _successData = MutableStateFlow(false)
     val successData : StateFlow<Boolean>
         get() = _successData
 
     init {
+        getNickname()
         getMessageData()
     }
 
@@ -39,7 +50,7 @@ class ThankApoloViewModel @Inject constructor(
             repository.getMessageList()
                 .catch {  }
                 .collect{
-                    _totalData = it.toMutableList()
+                    _totalData = it.reversed().toMutableList()
                     _letterData.value = when (_currentType){
                         0 ->  _totalData
                         1 ->  _totalData.filter { m -> m.messageType == "THANK" }.toMutableList()
@@ -101,6 +112,19 @@ class ThankApoloViewModel @Inject constructor(
                     _successData.value = it
                     if (it) _toastMessage.emit("메시지 전송에 성공하였습니다.")
                     else _toastMessage.emit("이메일이 올바르지 않습니다.")
+                }
+        }
+    }
+
+
+
+    fun getNickname(){
+        viewModelScope.launch {
+            profileRepository.getNickname()
+                .catch {  }
+                .collectLatest{
+                    if (it.success)
+                        _nicknameData.value = it.data.nickname
                 }
         }
     }

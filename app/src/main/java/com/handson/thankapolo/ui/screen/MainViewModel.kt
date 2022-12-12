@@ -25,7 +25,6 @@ class MainViewModel @Inject constructor(
     private lateinit var fcmToken : String
 
     init {
-        getNickname()
         firebaseMessaging.token.addOnCompleteListener { task ->
             if (!task.isSuccessful)
                 return@addOnCompleteListener

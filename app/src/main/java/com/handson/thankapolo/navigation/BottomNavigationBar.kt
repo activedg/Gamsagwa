@@ -22,7 +22,6 @@ fun BottomNavigationBar(
 
     val items = listOf(
         NavigationItem.Home,
-        NavigationItem.Look
     )
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.04f)

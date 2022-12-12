@@ -6,19 +6,19 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import com.handson.thankapolo.ThankApoloApplication.Companion.spfManager
 import com.handson.thankapolo.ui.base.BaseActivity
+import com.handson.thankapolo.ui.screen.home.ThankApoloScreen
+import com.handson.thankapolo.ui.screen.home.ThankApoloViewModel
 import com.handson.thankapolo.ui.screen.login.LoginActivity
 import com.handson.thankapolo.ui.screen.profile.ProfileActivity
 import com.handson.thankapolo.ui.screen.splash.SplashScreen
@@ -32,7 +32,8 @@ class MainActivity : BaseActivity() {
         private const val REQUIRED_POST_NOTIFICATIONS_PERMISSIONS = Manifest.permission.POST_NOTIFICATIONS
     }
 
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<ThankApoloViewModel>()
+
     private val callback = object : OnBackPressedCallback(true){
         override fun handleOnBackPressed() {
             finishAffinity()
@@ -48,9 +49,8 @@ class MainActivity : BaseActivity() {
                 REQUEST_POST_NOTIFICATIONS_PERMISSIONS)
         }
         setContent {
-            val name by viewModel.nicknameData.collectAsState()
             ThankApoloTheme {
-                MainScreen(name = name, moveToProfile = {moveToProfile()})
+                ThankApoloScreen(viewModel = viewModel, moveToProfile = { moveToProfile() })
             }
         }
     }
@@ -71,6 +71,17 @@ class MainActivity : BaseActivity() {
             spfManager.setPushNotification(true)
         } else {
             spfManager.setPushNotification(false)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getNickname()
+    }
+
+    fun showNewMessageToast(){
+        runOnUiThread {
+            viewModel.getMessageData()
         }
     }
 }

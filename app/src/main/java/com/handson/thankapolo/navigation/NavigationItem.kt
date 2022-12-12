@@ -9,5 +9,4 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class NavigationItem(var route: String, var icon: ImageVector, var title: String){
     object Home : NavigationItem("home", Icons.Default.MailOutline, "홈")
-    object Look : NavigationItem("look", Icons.Default.Search, "둘러보기")
 }

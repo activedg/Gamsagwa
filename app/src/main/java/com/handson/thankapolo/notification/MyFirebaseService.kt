@@ -6,14 +6,18 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Build
 import android.util.Log
+import androidx.compose.runtime.currentComposer
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.google.android.datatransport.Priority
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.handson.thankapolo.R
+import com.handson.thankapolo.ThankApoloApplication.Companion.currentActivity
 import com.handson.thankapolo.ThankApoloApplication.Companion.spfManager
+import com.handson.thankapolo.ui.screen.MainActivity
 
 class MyFirebaseService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
@@ -52,6 +56,11 @@ class MyFirebaseService : FirebaseMessagingService() {
             Log.d(TAG, "message received : $message")
             Log.d(TAG, "from : $from title : $title body : $body")
 
+            Log.e("current activity", " ${currentActivity.toString()}")
+
+            currentActivity?.let {
+                if (it is MainActivity) it.showNewMessageToast()
+            }
 
             title?.let { body?.let { sendNotification(title, body) } }
         }
@@ -67,6 +76,7 @@ class MyFirebaseService : FirebaseMessagingService() {
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentText(text)
             .setContentTitle(title)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
 //            .setContentIntent(resultPendingIntent)
 
         val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
