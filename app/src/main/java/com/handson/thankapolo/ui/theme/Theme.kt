@@ -73,11 +73,14 @@ fun ThankApoloTheme(
   useDarkTheme: Boolean = isSystemInDarkTheme(),
   content: @Composable() () -> Unit
 ) {
-  val colors = if (!useDarkTheme) {
-    LightColors
-  } else {
-    DarkColors
-  }
+//  val colors = if (!useDarkTheme) {
+//    LightColors
+//  } else {
+//    DarkColors
+//  }
+    // Todo : 다크모드 없앰
+    val colors = LightColors
+
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(

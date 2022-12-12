@@ -92,7 +92,7 @@ fun SendDialog(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 90.dp, top = 12.dp),
+                .padding(bottom = 40.dp, top = 12.dp),
             colors = CardDefaults.cardColors(containerColor = Color.White)
         ){
             Column(modifier = Modifier

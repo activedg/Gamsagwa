@@ -40,7 +40,7 @@ fun LetterCard(
     onHide: (Message) -> Unit,
     onDelete: (Message) -> Unit
 ){
-    var expandedState = rememberSaveable { mutableStateOf(false) }
+    var expandedState = rememberSaveable(message) { mutableStateOf(false) }
 
     val dropDownExpanded = remember { mutableStateOf(false)}
 

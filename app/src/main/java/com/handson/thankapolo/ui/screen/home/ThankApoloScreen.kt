@@ -2,6 +2,7 @@ package com.handson.thankapolo.ui.screen.home
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,7 +16,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -25,6 +28,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.handson.domain.data.home.Message
+import com.handson.thankapolo.R
 import com.handson.thankapolo.component.ConfirmDialog
 import com.handson.thankapolo.component.LetterCard
 import com.handson.thankapolo.component.ThankApoloTab
@@ -93,7 +97,9 @@ fun ThankApoloScreen(
                 containerColor = seed,
                 contentColor = Color.White,
                 shape = CircleShape,
-                modifier = Modifier.padding(bottom = 40.dp).size(70.dp)
+                modifier = Modifier
+                    .padding(bottom = 40.dp, end = 4.dp)
+                    .size(70.dp)
             ) {
                 Icon(imageVector = Icons.Default.MailOutline, contentDescription = null, modifier = Modifier.size(30.dp))
             }
@@ -118,27 +124,37 @@ fun ThankApoloScreen(
                             contentDescription = null)
                     }
                 }
-                LazyColumn(
-                    modifier = Modifier.padding(end = 10.dp)
-                ){
-                    items(it){ item ->
-                        if (!item.hidden || !item.hidden == !hideVisible.value) {
-                            LetterCard(item, onDelete = { m ->
-                                viewModel.setCurrentMessage(m)
-                                removeDialogVisible.value = true
-                            }, onHide = { m ->
-                                viewModel.setCurrentMessage(m)
-                                hideDialogVisible.value = true
-                            })
+                if (it.isNotEmpty()) {
+
+                    LazyColumn(
+                        modifier = Modifier.padding(end = 10.dp)
+                    ) {
+                        items(it) { item ->
+                            if (!item.hidden || !item.hidden == !hideVisible.value) {
+                                LetterCard(item, onDelete = { m ->
+                                    viewModel.setCurrentMessage(m)
+                                    removeDialogVisible.value = true
+                                }, onHide = { m ->
+                                    viewModel.setCurrentMessage(m)
+                                    hideDialogVisible.value = true
+                                })
+                            }
+                        }
+                    }
+                } else{
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ){
+                        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Image(painter = painterResource(id = R.drawable.empty_mail), contentDescription = null,
+                                colorFilter = ColorFilter.tint(color = Color.Gray)
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Text(text = "메일함이 비어있어요", style = Typography.labelMedium, color = Color.Gray)
                         }
                     }
                 }
-//            if (it.isEmpty()){
-//
-//            } else{
-//
-//            }
-
             }
 
             // 삭제 다이얼로그
