@@ -32,11 +32,19 @@ class MainActivity : BaseActivity() {
         private const val REQUIRED_POST_NOTIFICATIONS_PERMISSIONS = Manifest.permission.POST_NOTIFICATIONS
     }
 
+    private var backKeyPressedTime: Long = 0
+
     private val viewModel by viewModels<ThankApoloViewModel>()
 
     private val callback = object : OnBackPressedCallback(true){
         override fun handleOnBackPressed() {
-            finishAffinity()
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+                // 뒤로가기 두 번 누르면 종료
+                finishAffinity()
+            } else{
+                backKeyPressedTime = System.currentTimeMillis()
+                Toast.makeText(this@MainActivity, "뒤로 가기 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
     override fun initScreen() {

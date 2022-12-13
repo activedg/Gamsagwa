@@ -110,8 +110,10 @@ class ThankApoloViewModel @Inject constructor(
                 .catch { it.message?.let { _toastMessage.emit("이메일이 올바르지 않습니다.") } }
                 .collectLatest {
                     _successData.value = it
-                    if (it) _toastMessage.emit("메시지 전송에 성공하였습니다.")
-                    else _toastMessage.emit("이메일이 올바르지 않습니다.")
+                    if (it) {
+                        _toastMessage.emit("메시지 전송에 성공하였습니다.")
+                        _successData.value = false
+                    }
                 }
         }
     }

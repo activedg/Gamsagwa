@@ -178,12 +178,13 @@ fun ThankApoloScreen(
                     onDismiss = {hideDialogVisible.value = false}
                 )
             }
+            if (sendDialogVisible.value){
+                SendDialog(onDismiss = {sendDialogVisible.value = false})
+            }
 
         }
 
-        if (sendDialogVisible.value){
-            SendDialog(onDismiss = {sendDialogVisible.value = false})
-        }
+
 //        AnimatedVisibility(visible = sendDialogVisible.value, enter = slideInVertically(), exit = slideOutVertically()) {
 //        }
 
